@@ -6,9 +6,12 @@
     "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.0.0",
     "firebase": "^5.0.1",
+    "firebaseui": "^3.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-firebaseui": "^3.0.4",
     "react-google-maps": "^9.4.5",
+    "react-places-autocomplete": "^7.1.1",
     "react-scripts": "1.1.4"
   },
   "scripts": {

@@ -21,18 +21,18 @@ const styles = {
 };
 
 function ButtonAppBar(props) {
-  const { classes } = props;
+  const { classes, firebase, isSignedIn } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          {/* <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="title" color="inherit" className={classes.flex}>
             STUDS18 Events
           </Typography>
-          <Button color="inherit">Login</Button>
+          {isSignedIn && <Button color="inherit" onClick={() => firebase.auth().signOut()}>Sign Out</Button>}
         </Toolbar>
       </AppBar>
     </div>

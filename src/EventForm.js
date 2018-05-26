@@ -7,13 +7,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import { Button } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { GoogleMap, Marker } from 'react-google-maps';
 
 
 const styles = theme => ({
@@ -76,6 +74,7 @@ const dataFields = {
   price: 0,
   signupClosesDate: defaultTimeString,
   category: categories[0],
+  address: '',
 };
 
 const initialState = {
@@ -134,6 +133,7 @@ class EventForm extends Component {
     }
 
     details['createdDate'] = Date.now();
+    details['location'] = {address: this.state['address']}
 
     this.setState({...initialState});
     this.setState({snackbarOpen: true});
@@ -174,7 +174,20 @@ class EventForm extends Component {
             className={classes.textField}
             margin="normal"
             fullWidth
+            value={this.state.title}
             onChange={this.handleChange('title')}
+          />
+          <TextField
+            id="multiline-flexible"
+            label="Description"
+            multiline
+            fullWidth
+            rowsMax="4"
+            value={this.state.description}
+            onChange={this.handleChange('description')}
+            error={errors.includes('description')}            
+            className={classes.textField}
+            margin="normal"
           />
           <TextField
             id="select-city"
@@ -220,27 +233,26 @@ class EventForm extends Component {
             ))}
           </TextField>
           <TextField
-            id="multiline-flexible"
-            label="Description"
-            multiline
-            fullWidth
-            rowsMax="4"
-            value={this.state.description}
-            onChange={this.handleChange('description')}
-            error={errors.includes('description')}            
+            error={errors.includes('address')}
+            id="address"
+            label="Address"
+            placeholder="Address"
             className={classes.textField}
             margin="normal"
+            fullWidth
+            value={this.state.address}
+            onChange={this.handleChange('address')}
           />
           <TextField
             id="datetime-local"
             label="Start Time"
             type="datetime-local"
-            defaultValue={defaultTimeString}
             className={classes.textField}
             fullWidth
             InputLabelProps={{
               shrink: true,
             }}
+            value={this.state.startDate}
             onChange={this.handleChange('startDate')}
             error={errors.includes('startDate')}
             
@@ -249,13 +261,13 @@ class EventForm extends Component {
             id="datetime-local"
             label="End Time"
             type="datetime-local"
-            defaultValue={defaultTimeString}
             className={classes.textField}
             fullWidth
             InputLabelProps={{
               shrink: true,
             }}
             onChange={this.handleChange('endDate')}
+            value={this.state.endDate}
             error={errors.includes('endDate')}
           />
           <FormControl fullWidth className={classes.textField}>
@@ -272,12 +284,12 @@ class EventForm extends Component {
             id="datetime-local"
             label="Signup Deadline"
             type="datetime-local"
-            defaultValue={defaultTimeString}
             className={classes.textField}
             fullWidth
             InputLabelProps={{
               shrink: true,
             }}
+            value={this.state.signupClosesDate}
             onChange={this.handleChange('signupClosesDate')}            
           />
           <Button 
@@ -312,18 +324,9 @@ class EventForm extends Component {
               </IconButton>,
           ]}
         />
-        {/* <MyMapComponent /> */}
       </div>
     );
   }
 }
-
-const MyMapComponent = (props) =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-  >
-    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
-  </GoogleMap>
 
 export default withStyles(styles)(EventForm);
